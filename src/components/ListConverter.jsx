@@ -5,11 +5,16 @@ import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import Button from '@mui/material/Button'; // Added Button import
-import DeleteIcon from '@mui/icons-material/Delete'; // Optional: for icon
+import Button from '@mui/material/Button';
+import DeleteIcon from '@mui/icons-material/Delete';
+import FormatQuoteIcon from '@mui/icons-material/FormatQuote';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 
 const ListConverter = () => {
   const [input, setInput] = useState('');
+  const [addSpaces, setAddSpaces] = useState(true);
+  const [surroundWithQuotes, setSurroundWithQuotes] = useState(false);
 
   const handleInputChange = (e) => {
     setInput(e.target.value);
@@ -17,6 +22,15 @@ const ListConverter = () => {
 
   const handleClear = () => {
     setInput('');
+    setSurroundWithQuotes(false);
+  };
+
+  const handleSurround = () => {
+    setSurroundWithQuotes(true);
+  };
+
+  const handleSpacesChange = (event) => {
+    setAddSpaces(event.target.checked);
   };
 
   const getCommaSeparatedList = () => {
@@ -25,9 +39,10 @@ const ListConverter = () => {
     const items = input
       .split('\n')
       .map(item => item.trim())
-      .filter(item => item.length > 0);
+      .filter(item => item.length > 0)
+      .map(item => surroundWithQuotes ? `'${item}'` : item);
     
-    return items.join(',');
+    return items.join(addSpaces ? ', ' : ',');
   };
 
   return (
@@ -54,7 +69,9 @@ const ListConverter = () => {
             display: 'flex', 
             justifyContent: 'space-between', 
             alignItems: 'center',
-            mb: 3
+            mb: 3,
+            flexWrap: 'wrap',
+            gap: 2
           }}>
             <Typography 
               variant="h6" 
@@ -62,15 +79,28 @@ const ListConverter = () => {
             >
               List Converter
             </Typography>
-            <Button
-              variant="contained"
-              color="error"
-              startIcon={<DeleteIcon />}
-              onClick={handleClear}
-              sx={{ ml: 2 }}
-            >
-              Clear Text
-            </Button>
+            <Box sx={{ 
+              display: 'flex', 
+              gap: 2,
+              flexWrap: 'wrap' 
+            }}>
+              <Button
+                variant="contained"
+                color="primary"
+                startIcon={<FormatQuoteIcon />}
+                onClick={handleSurround}
+              >
+                Surround
+              </Button>
+              <Button
+                variant="contained"
+                color="error"
+                startIcon={<DeleteIcon />}
+                onClick={handleClear}
+              >
+                Clear Text
+              </Button>
+            </Box>
           </Box>
           
           <TextField
@@ -82,9 +112,9 @@ const ListConverter = () => {
             onChange={handleInputChange}
             variant="outlined"
             placeholder="Example:
-51640
-57717
-51001"
+Plymouth
+Union
+Sioux"
             sx={{ 
               mb: 4,
               '& .MuiOutlinedInput-root': {
@@ -93,14 +123,30 @@ const ListConverter = () => {
             }}
           />
 
-          <Typography 
-            variant="subtitle1" 
-            gutterBottom 
-            align="center"
-            sx={{ mb: 2 }}
-          >
-            Comma-separated output:
-          </Typography>
+          <Box sx={{ 
+            display: 'flex', 
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            mb: 2
+          }}>
+            <Typography 
+              variant="subtitle1" 
+              gutterBottom 
+            >
+              Comma-separated output:
+            </Typography>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={addSpaces}
+                  onChange={handleSpacesChange}
+                  name="addSpaces"
+                  color="primary"
+                />
+              }
+              label="Add spaces after commas"
+            />
+          </Box>
           
           <TextField
             fullWidth
