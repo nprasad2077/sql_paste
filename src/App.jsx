@@ -1,11 +1,12 @@
-// src/App.jsx
-import ListConverter from './components/ListConverter';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import ListConverter from './components/ListConverter';
+import React from 'react';
+import "./styles/main.css";
 
-// Create a theme instance (you can customize this)
+// Create MUI theme
 const theme = createTheme({
   palette: {
     primary: {
@@ -15,24 +16,68 @@ const theme = createTheme({
       default: '#f0f2f5',
     },
   },
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          width: '100vw',
+          margin: 0,
+          padding: 0,
+          minHeight: '100vh',
+        },
+        '#root': {
+          width: '100%',
+          minHeight: '100vh',
+        },
+      },
+    },
+  },
 });
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Box sx={{ minHeight: '100vh', py: 2 }}>
-        <Typography 
-          variant="h4" 
-          component="h1" 
-          align="center" 
-          gutterBottom
-          sx={{ mb: 4 }}
+      <Container 
+        maxWidth={false} 
+        sx={{
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'flex-start',
+          bgcolor: 'background.default',
+          px: 2,
+        }}
+      >
+        <Container 
+          maxWidth="lg" 
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            width: '100%',
+            pt: 8,
+            pb: 4,
+          }}
         >
-          List to Comma Separator
-        </Typography>
-        <ListConverter />
-      </Box>
+          <Typography 
+            variant="h3" 
+            component="h1" 
+            sx={{
+              mb: 4,
+              textAlign: 'center',
+              width: '100%',
+              fontWeight: 700,
+              letterSpacing: 0.5,
+              color: 'text.primary',
+            }}
+          >
+            List to Comma Separator
+          </Typography>
+          <ListConverter />
+        </Container>
+      </Container>
     </ThemeProvider>
   );
 }
