@@ -5,12 +5,18 @@ import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import Button from '@mui/material/Button'; // Added Button import
+import DeleteIcon from '@mui/icons-material/Delete'; // Optional: for icon
 
 const ListConverter = () => {
   const [input, setInput] = useState('');
 
   const handleInputChange = (e) => {
     setInput(e.target.value);
+  };
+
+  const handleClear = () => {
+    setInput('');
   };
 
   const getCommaSeparatedList = () => {
@@ -25,12 +31,47 @@ const ListConverter = () => {
   };
 
   return (
-    <Container maxWidth="md">
-      <Box sx={{ mt: 4, mb: 4 }}>
-        <Paper elevation={3} sx={{ p: 3 }}>
-          <Typography variant="h6" gutterBottom>
-            List Converter
-          </Typography>
+    <Container maxWidth="lg">
+      <Box 
+        sx={{ 
+          mt: 4, 
+          mb: 4,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          width: '100%'
+        }}
+      >
+        <Paper 
+          elevation={3} 
+          sx={{ 
+            p: 4,
+            width: '100%',
+            maxWidth: '900px'
+          }}
+        >
+          <Box sx={{ 
+            display: 'flex', 
+            justifyContent: 'space-between', 
+            alignItems: 'center',
+            mb: 3
+          }}>
+            <Typography 
+              variant="h6" 
+              align="center"
+            >
+              List Converter
+            </Typography>
+            <Button
+              variant="contained"
+              color="error"
+              startIcon={<DeleteIcon />}
+              onClick={handleClear}
+              sx={{ ml: 2 }}
+            >
+              Clear Text
+            </Button>
+          </Box>
           
           <TextField
             fullWidth
@@ -44,17 +85,27 @@ const ListConverter = () => {
 51640
 57717
 51001"
-            sx={{ mb: 3 }}
+            sx={{ 
+              mb: 4,
+              '& .MuiOutlinedInput-root': {
+                fontFamily: 'monospace'
+              }
+            }}
           />
 
-          <Typography variant="subtitle1" gutterBottom>
+          <Typography 
+            variant="subtitle1" 
+            gutterBottom 
+            align="center"
+            sx={{ mb: 2 }}
+          >
             Comma-separated output:
           </Typography>
           
           <TextField
             fullWidth
             multiline
-            rows={2}
+            rows={3}
             value={getCommaSeparatedList()}
             variant="outlined"
             InputProps={{
@@ -63,6 +114,7 @@ const ListConverter = () => {
             sx={{
               backgroundColor: '#f5f5f5',
               '& .MuiOutlinedInput-root': {
+                fontFamily: 'monospace',
                 '& fieldset': {
                   borderColor: '#e0e0e0',
                 },
