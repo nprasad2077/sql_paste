@@ -1,3 +1,4 @@
+// src/components/ListConverter.jsx
 import { useState } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -7,18 +8,13 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FormatQuoteIcon from '@mui/icons-material/FormatQuote';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import CheckIcon from '@mui/icons-material/Check';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import Snackbar from '@mui/material/Snackbar';
 
 const ListConverter = () => {
   const [input, setInput] = useState('');
   const [addSpaces, setAddSpaces] = useState(true);
   const [surroundWithQuotes, setSurroundWithQuotes] = useState(false);
-  const [copySuccess, setCopySuccess] = useState(false);
-  const [showSnackbar, setShowSnackbar] = useState(false);
 
   const handleInputChange = (e) => {
     setInput(e.target.value);
@@ -35,22 +31,6 @@ const ListConverter = () => {
 
   const handleSpacesChange = (event) => {
     setAddSpaces(event.target.checked);
-  };
-
-  const handleCopy = async () => {
-    const textToCopy = getCommaSeparatedList();
-    try {
-      await navigator.clipboard.writeText(textToCopy);
-      setCopySuccess(true);
-      setShowSnackbar(true);
-      setTimeout(() => setCopySuccess(false), 2000);
-    } catch (err) {
-      console.error('Failed to copy text:', err);
-    }
-  };
-
-  const handleSnackbarClose = () => {
-    setShowSnackbar(false);
   };
 
   const getCommaSeparatedList = () => {
@@ -155,28 +135,17 @@ Sioux"
             >
               Comma-separated output:
             </Typography>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={addSpaces}
-                    onChange={handleSpacesChange}
-                    name="addSpaces"
-                    color="primary"
-                  />
-                }
-                label="Add spaces after commas"
-              />
-              <Button
-                variant="contained"
-                color="primary"
-                startIcon={copySuccess ? <CheckIcon /> : <ContentCopyIcon />}
-                onClick={handleCopy}
-                disabled={!getCommaSeparatedList()}
-              >
-                {copySuccess ? 'Copied!' : 'Copy'}
-              </Button>
-            </Box>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={addSpaces}
+                  onChange={handleSpacesChange}
+                  name="addSpaces"
+                  color="primary"
+                />
+              }
+              label="Add spaces after commas"
+            />
           </Box>
           
           <TextField
@@ -200,13 +169,6 @@ Sioux"
           />
         </Paper>
       </Box>
-      <Snackbar
-        open={showSnackbar}
-        autoHideDuration={2000}
-        onClose={handleSnackbarClose}
-        message="Copied to clipboard!"
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-      />
     </Container>
   );
 };
