@@ -8,7 +8,6 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
-import ParenthesesIcon from "@mui/icons-material/FunctionsOutlined";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import DataObjectIcon from "@mui/icons-material/DataObject";
@@ -63,7 +62,7 @@ const ListConverter = () => {
   };
 
   return (
-    <Container maxWidth={false} sx={{px: 4}}>
+    <Container maxWidth={false} sx={{ px: 4 }}>
       <Box
         sx={{
           mt: 2,
